@@ -1,0 +1,15 @@
+*.png
+*.gz
+*.eps
+*.log
+*.pdf
+.ignore
+*.zip
+prog*
+*.docx
+*.asv
+*.wav
+*.csv
+*.o
+*.csv
+*.xlsx
