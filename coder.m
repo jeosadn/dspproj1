@@ -68,4 +68,6 @@ H1(z) = 1 + a1*z^(-t1);
 %--------------------------------------------------------------------------
 %Output characteristics:
 % 16 bit per sample, at 44100 Hz, in stereo
-audiowrite('./output.wav', sampleData, sampleFrequency);
+audiowrite('./coded.wav', sampleData, sampleFrequency);
+
+
