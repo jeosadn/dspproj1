@@ -14,8 +14,8 @@ addpath('./export_fig/');
 %--------------------------------------------------------------------------
 % Segment signal
 %--------------------------------------------------------------------------
-segmentSize = 400;
-Channel = 1;
+segmentSize = 400; %This should come from the parameters.
+Channel = 1; %This should come from the parameters.
 
 signalSize = size(sampleData(:,Channel));
 segmentTotal = ceil(signalSize(1)/segmentSize);
@@ -34,34 +34,89 @@ for i = 1:segmentTotal
 end
 
 %--------------------------------------------------------------------------
-% Multiplexing
+% Multiplexing and Combining
 %--------------------------------------------------------------------------
-metaData = round(rand(segmentTotal,1));
-syms H0(z) H1(z);
+metaData = round(rand(segmentTotal,1)); %This should be real metaData.
 
-a0 = 0.2;
-t0 = 0.8;
-H0(z) = 1 + a0*z^(-t0);
+%H0(z) = 1 + a0*z^(-t0)
+a0 = 0.2; %This could come from the parameters.
+t0 = 6; %This could come from the parameters.
 
-a1 = 0.8;
-t1 = 0.2;
-H1(z) = 1 + a1*z^(-t1);
+H0 = zeros(t0,1);
+H0(1) = 1;
+H0(t0) = a0;
+h0 = impz(H0,1);
+h0 = h0';
 
-% y1(z) = z;
-% y0(z) = z;
-% 
-% index1 = 0;
-% index0 = 0;
-% for i = 1:segmentTotal
-%     for j = 1:segmentSize
-%         if(metaData(i))
-%             index1 = index1 + 1;
-%             y1(index1) = y1(index)+(H1*v(i,j)*z^(-j+1)); 
-%         else
-%         
-%         end
-%     end
-% end
+%H1(z) = 1 + a1*z^(-t1)
+a1 = 0.8; %This could come from the parameters.
+t1 = 3; %This could come from the parameters.
+
+H1 = zeros(t1,1);
+H1(1) = 1;
+H1(t1) = a1;
+h1 = impz(H1,1);
+h1 = h1';
+
+%figure;
+%stem(h1);
+%hold on
+%stem(h0);
+
+temp0 = zeros(1,segmentSize+t0-1);
+temp1 = zeros(1,segmentSize+t1-1);
+
+ex0 = zeros(1,t0-1);
+ex1 = zeros(1,t1-1);
+
+for i = 1:segmentTotal
+    if(metaData(i))
+        temp1 = conv(v(i,:),h1);
+        for j = 1:segmentSize+t1-1
+            if (j<=segmentSize)
+                if (j>t1-1)
+                    v(i,j) = temp1(j);
+                else
+                    v(i,j) = temp1(j)+ex1(j);
+                end
+            else
+                ex1(j-segmentSize) = temp1(j);
+            end
+        end
+    else
+        temp0 = conv(v(i,:),h0);
+        for j = 1:segmentSize+t0-1
+            if (j<=segmentSize)
+                if (j>t0-1)
+                    v(i,j) = temp0(j);
+                else
+                    v(i,j) = temp0(j)+ex0(j);
+                end
+            else
+                ex0(j-segmentSize) = temp0(j);
+            end
+        end
+    end
+end
+
+%--------------------------------------------------------------------------
+% Unifying segments
+%--------------------------------------------------------------------------
+index = 0;
+for i = 1:segmentTotal
+    for j = 1:segmentSize
+        index = index+1;        
+        if (index < signalSize(1))
+            sampleData(index,Channel) = v(i,j);
+        end
+    end
+end
+
+% Adding this to remove warning from audiowrite function.
+maxValue = max( abs(sampleData(:,Channel)) );
+for i = 1:signalSize(1)
+    sampleData(i,Channel) = sampleData(i,Channel)/maxValue;
+end
 
 %--------------------------------------------------------------------------
 % Write audio file
@@ -69,5 +124,3 @@ H1(z) = 1 + a1*z^(-t1);
 %Output characteristics:
 % 16 bit per sample, at 44100 Hz, in stereo
 audiowrite('./coded.wav', sampleData, sampleFrequency);
-
-
