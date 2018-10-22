@@ -18,11 +18,11 @@ segmentSize = 400;
 Channel = 1;
 
 signalSize = size(sampleData(:,Channel));
-segmentTotal = ceil(signalSize(1)/segmentSize);
-v = rand(segmentTotal,segmentSize);
+numberSegments = ceil(signalSize(1)/segmentSize);
+v = rand(numberSegments,segmentSize);
 
 index = 0;
-for i = 1:segmentTotal
+for i = 1:numberSegments
     for j = 1:segmentSize
         index = index+1;
         if (index < signalSize(1))
@@ -36,18 +36,26 @@ end
 %--------------------------------------------------------------------------
 % Cepstrum autocorrelation
 %--------------------------------------------------------------------------
-for i = 1:segmentTotal
-    cepstrum = ifft(log(fft(v(i)))^2);
-end
+%cepstrum = zeros(numberSegments,segmentSize);
+%for i = 1:numberSegments
+    prueba = abs(ifft(log(fft(v(10,:))).^2));
+    %cepstrum(i) = prueba;
+%end
 
 %--------------------------------------------------------------------------
 % Sorter
 %--------------------------------------------------------------------------
-a0 = 0.2;
-t0 = 0.8;
+%a0 = 0.2;
+%t0 = 0.8;
 
-a1 = 0.8;
-t1 = 0.2;
+%a1 = 0.8;
+%t1 = 0.2;
+
+figure(2);
+plot(prueba);
+%axis([295 305 0 60]);
+hold on;
+%plot(cepstrum(1));
 
 %--------------------------------------------------------------------------
 % Write audio file

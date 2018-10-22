@@ -33,14 +33,20 @@ for i = 1:segmentTotal
     end
 end
 
+prueba1 = abs(ifft(log(fft(v(10,:))).^2));
+figure(1);
+plot(prueba1);
+%axis([0 400 0 60]);
+hold on;
 %--------------------------------------------------------------------------
 % Multiplexing and Combining
 %--------------------------------------------------------------------------
 metaData = round(rand(segmentTotal,1)); %This should be real metaData.
+metaData(10) = 1;
 
 %H0(z) = 1 + a0*z^(-t0)
-a0 = 0.2; %This could come from the parameters.
-t0 = 6; %This could come from the parameters.
+a0 = 1*10^20; %This could come from the parameters.
+t0 = 100; %This could come from the parameters.
 
 H0 = zeros(t0,1);
 H0(1) = 1;
@@ -49,8 +55,8 @@ h0 = impz(H0,1);
 h0 = h0';
 
 %H1(z) = 1 + a1*z^(-t1)
-a1 = 0.8; %This could come from the parameters.
-t1 = 3; %This could come from the parameters.
+a1 = 5*10^20; %This could come from the parameters.
+t1 = 300; %This could come from the parameters.
 
 H1 = zeros(t1,1);
 H1(1) = 1;
@@ -98,6 +104,11 @@ for i = 1:segmentTotal
         end
     end
 end
+
+prueba2 = abs(ifft(log(fft(v(10,:))).^2));
+plot(prueba2);
+axis([25 375 0 30]);
+hold on;
 
 %--------------------------------------------------------------------------
 % Unifying segments
