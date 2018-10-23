@@ -37,12 +37,12 @@ end
 % Multiplexing
 %--------------------------------------------------------------------------
 metaData = round(rand(segmentTotal,1)); %This should be real metaData.
-t = 10;
-metaData(t) = 1;
+t = 855;
+metaData(t) = 0;
 
 %H0(z) = 1 + a0*z^(-t0)
 a0 = 8000; %This could come from the parameters.
-t0 = 2000; %This could come from the parameters.
+t0 = 200; %This could come from the parameters.
 
 H0 = zeros(t0,1);
 H0(1) = 1;
@@ -51,7 +51,7 @@ h0 = impz(H0,1);
 h0 = h0';
 
 %H1(z) = 1 + a1*z^(-t1)
-a1 = 2000; %This could come from the parameters.
+a1 = 200; %This could come from the parameters.
 t1 = 8000; %This could come from the parameters.
 
 H1 = zeros(t1,1);
@@ -81,12 +81,12 @@ temp_y = zeros(segmentTotal,segmentSize+tMax-1);
 for i = 1:segmentTotal
     if(metaData(i))
         temp1 = conv(v(i,:),h1);
-        for j = 2:segmentSize+t1-2
+        for j = 1:segmentSize+t1-1
             temp_y(i,j) = temp1(j);
         end
     else
         temp0 = conv(v(i,:),h0);
-        for j = 2:segmentSize+t0-2
+        for j = 1:segmentSize+t0-1
             temp_y(i,j) = temp0(j);
         end
     end
@@ -112,9 +112,12 @@ for i = 1:segmentTotal
     end
 end
 
-prueba = abs(ifft(log(fft(temp_y(t,:))).^2));
+prueba = abs(ifft(log(fft(y(t,:))).^2));
+%prueba2 = abs(ifft(log(fft(temp_y(t,:))).^2));
 figure(1);
 plot(prueba);
+%hold on;
+%plot(prueba2)
 axis([0 segmentSize 0 6]);
 
 %--------------------------------------------------------------------------
