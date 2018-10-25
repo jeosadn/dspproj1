@@ -14,7 +14,7 @@ addpath('./export_fig/');
 %--------------------------------------------------------------------------
 % Segment signal
 %--------------------------------------------------------------------------
-segmentSize = 400;
+segmentSize = 10000;
 Channel = 1;
 
 signalSize = size(sampleData(:,Channel));
@@ -36,26 +36,47 @@ end
 %--------------------------------------------------------------------------
 % Cepstrum autocorrelation
 %--------------------------------------------------------------------------
-%cepstrum = zeros(numberSegments,segmentSize);
-%for i = 1:numberSegments
-    prueba = abs(ifft(log(fft(v(10,:))).^2));
-    %cepstrum(i) = prueba;
-%end
+cepstrum = rand(numberSegments,segmentSize);
+for i = 1:numberSegments
+    prueba = abs(ifft(log(fft(v(i,:))).^2));
+    cepstrum(i,:) = prueba;
+end
+
+%%%% PLOT %%%%%
+figure(2);
+plot(cepstrum(10,:));
+axis([0 segmentSize 0 6]);
+hold on;
+%%%%%%%%%%%%%%%%%
 
 %--------------------------------------------------------------------------
 % Sorter
 %--------------------------------------------------------------------------
-%a0 = 0.2;
-%t0 = 0.8;
+tolerance = 5;
+a0 = 0.8;
+t0 = 200;
 
-%a1 = 0.8;
-%t1 = 0.2;
+a1 = 0.8;
+t1 = 8000;
 
-figure(2);
-plot(prueba);
-%axis([295 305 0 60]);
-hold on;
-%plot(cepstrum(1));
+bits = zeros(numberSegments,1);
+for i = 1:numberSegments
+    t0_rxx = max(cepstrum(i,t0-tolerance:t0+tolerance));
+    t1_rxx = max(cepstrum(i,t1-tolerance:t1+tolerance));
+    if (t1_rxx > t0_rxx)
+        bits(i) = 1;
+    else
+        bits(i) = 0;
+    end    
+end
+
+bin_char = zeros(8,1);
+for i = 1:8
+    bin_char(i) = bits(i);
+end
+
+char = bin2dec(bits);
+
 
 %--------------------------------------------------------------------------
 % Write audio file

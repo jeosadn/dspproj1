@@ -37,11 +37,19 @@ end
 % Multiplexing
 %--------------------------------------------------------------------------
 metaData = round(rand(segmentTotal,1)); %This should be real metaData.
-t = 855;
+
+% This is for test a fixed char example
+char = 'h';
+bin_char = dec2bin(char,8);
+for i = 1:8
+    metaData(i) = bin_char(i);
+end
+
+t = 10;
 metaData(t) = 0;
 
 %H0(z) = 1 + a0*z^(-t0)
-a0 = 8000; %This could come from the parameters.
+a0 = 0.8; %This could come from the parameters.
 t0 = 200; %This could come from the parameters.
 
 H0 = zeros(t0,1);
@@ -51,7 +59,7 @@ h0 = impz(H0,1);
 h0 = h0';
 
 %H1(z) = 1 + a1*z^(-t1)
-a1 = 200; %This could come from the parameters.
+a1 = 0.2; %This could come from the parameters.
 t1 = 8000; %This could come from the parameters.
 
 H1 = zeros(t1,1);
@@ -128,7 +136,7 @@ for i = 1:segmentTotal
     for j = 1:segmentSize
         index = index+1;        
         if (index < signalSize(1))
-            sampleData(index,Channel) = v(i,j);
+            sampleData(index,Channel) = y(i,j);
         end
     end
 end
