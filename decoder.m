@@ -31,15 +31,17 @@ function [dataDecoded] = decoder(a0,t0,a1,t1,segmentSize,Channel,decoder_delay_t
     %--------------------------------------------------------------------------
     % Cepstrum autocorrelation
     %--------------------------------------------------------------------------
+    auto_corr = zeros(2*segmentSize-1,1);
     cepstrum = rand(numberSegments,segmentSize);
     for i = 1:numberSegments
-        prueba = abs(ifft(log(fft(v(i,:))).^2));
-        cepstrum(i,:) = prueba;
+        auto_corr = xcorr(v(i,:));
+        prueba = abs(ifft(log((fft(auto_corr)).^2)));
+        cepstrum(i,:) = prueba(1:segmentSize);
     end
 
     %%%% PLOT %%%%%
     figure(2);
-    plot(cepstrum(36,:));
+    plot(cepstrum(56,:));
     axis([0 segmentSize 0 6]);
     hold on;
     %%%%%%%%%%%%%%%%%
