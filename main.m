@@ -5,12 +5,12 @@ set(gcf, 'Visible', 'off');
 addpath('./export_fig/');
 
 %Parameters
-segmentSize = 10000;            %This should come from the parameters.
+segmentSize = 5000;            %This should come from the parameters.
 Channel = 1;                    %This should come from the parameters.
 a0 = 0.8;                       %Gain of first eco.
-t0 = 200;                      %Delay of first eco.
-a1 = 0.2;                       %Gain of second eco.
-t1 = 9700;                      %Gain of second eco.
+t0 = 290;                      %Delay of first eco.
+a1 = 0.7;                       %Gain of second eco.
+t1 = 350;                      %Gain of second eco.
 decoder_delay_tolerance = 3;    %Delay tolerance in decoder.
 
 % FIXME (JOSE): 
@@ -19,7 +19,7 @@ decoder_delay_tolerance = 3;    %Delay tolerance in decoder.
 signalSize = size(sampleData(:,Channel));
 segmentTotal = ceil(signalSize(1)/segmentSize);
 
-%metaData = round(rand(segmentTotal,1)); %This should be real metaData.
+metaData = round(rand(segmentTotal,1)); %This should be real metaData.
 % END FIXME
 
 % Calling coder

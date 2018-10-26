@@ -9,8 +9,8 @@ function [dataDecoded] = decoder(a0,t0,a1,t1,segmentSize,Channel,decoder_delay_t
     %--------------------------------------------------------------------------
     % Segment signal
     %--------------------------------------------------------------------------
-    segmentSize = 10000;
-    Channel = 1;
+    %segmentSize = 10000;
+    %Channel = 1;
 
     signalSize = size(sampleData(:,Channel));
     numberSegments = ceil(signalSize(1)/segmentSize);
@@ -39,7 +39,7 @@ function [dataDecoded] = decoder(a0,t0,a1,t1,segmentSize,Channel,decoder_delay_t
 
     %%%% PLOT %%%%%
     figure(2);
-    plot(cepstrum(11,:));
+    plot(cepstrum(36,:));
     axis([0 segmentSize 0 6]);
     hold on;
     %%%%%%%%%%%%%%%%%

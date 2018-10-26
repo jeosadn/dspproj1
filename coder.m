@@ -115,7 +115,7 @@ function coder(audio_original_file,metaData,a0,t0,a1,t1,segmentSize,Channel)
         end
     end
 
-    prueba = abs(ifft(log(fft(y(11,:))).^2));
+    prueba = abs(ifft(log(fft(y(36,:))).^2));
     %prueba2 = abs(ifft(log(fft(temp_y(t,:))).^2));
     figure(1);
     plot(prueba);
