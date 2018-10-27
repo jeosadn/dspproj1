@@ -27,7 +27,7 @@ fclose(metadata_file);
 msg_string = ['########' metadata_string '@@'];
 binary_output = [];
 for idx = 1:length(msg_string)
-    binary_char = de2bi(double(msg_string(idx)), 8); %Octave version
+    binary_char = de2bi(double(msg_string(idx)), 8);
 
     code_word = [];
     if code_len == 8
