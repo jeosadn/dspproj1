@@ -27,10 +27,7 @@ fclose(metadata_file);
 msg_string = ['########' metadata_string '@@'];
 binary_output = [];
 for idx = 1:length(msg_string)
-    %COMPAT
-    %binary_char = de2bi(double(msg_string(idx)), 8); %Octave version
-    binary_char = de2bi(cast(msg_string(idx), 'uint8'), 8); %Matlab version
-    %ENDCOMPAT
+    binary_char = de2bi(double(msg_string(idx)), 8); %Octave version
 
     code_word = [];
     if code_len == 8
