@@ -1,4 +1,4 @@
-addpath("functions");
+addpath('functions');
 
 clear;
 clc;

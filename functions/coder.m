@@ -132,5 +132,5 @@ function coder(audio_original_file, metaData, a0, t0, a1, t1, segmentSize, Chann
     %--------------------------------------------------------------------------
     %Output characteristics:
     % 16 bit per sample, at 44100 Hz, in stereo
-    audiowrite('./coded.wav', sampleData, sampleFrequency);
+    audiowrite('./wavFiles/coded.wav', sampleData, sampleFrequency);
 end

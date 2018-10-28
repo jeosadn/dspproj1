@@ -4,7 +4,7 @@ function [dataDecoded] = decoder(a0, t0, a1, t1, segmentSize, Channel, decoder_d
     %--------------------------------------------------------------------------
     %Input characteristics:
     % 16 bit per sample, at 44100 Hz, in stereo
-    [sampleData, sampleFrequency] = audioread('./coded.wav');
+    [sampleData, sampleFrequency] = audioread('./wavFiles/coded.wav');
 
     %--------------------------------------------------------------------------
     % Segment signal

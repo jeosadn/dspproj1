@@ -1,8 +1,8 @@
-addpath("functions");
+addpath('functions');
 
 clear;
 clc;
-delete './coded.wav';
+delete './wavFiles/coded.wav';
 
 %PARSING Parameters
 metadata_filename = read_parameters('parameters.txt','metadata_filename');

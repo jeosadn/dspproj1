@@ -2,7 +2,7 @@ function str_result = read_parameters(parameters_filename, parameter)
     parameters_string = '';
     parameters_file = fopen(parameters_filename, 'r');
     line = fgetl(parameters_file);
-    item = strsplit(line,{" ","="});
+    item = strsplit(line,{' ','='});
     
     str_result = '';
     parameter_name = item(1,1);
@@ -16,7 +16,7 @@ function str_result = read_parameters(parameters_filename, parameter)
           if line == -1
             break;
           end
-          item = strsplit(line,{" ","="});
+          item = strsplit(line,{' ','='});
           parameter_name = item(1,1);
         end
     end
