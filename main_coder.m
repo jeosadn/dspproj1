@@ -2,7 +2,7 @@ addpath("functions");
 
 clear;
 clc;
-delete './wavFiles/coded.wav';
+delete './coded.wav';
 
 %PARSING Parameters
 metadata_filename = read_parameters('parameters.txt','metadata_filename');
@@ -20,24 +20,13 @@ a1 = str2num(read_parameters('parameters.txt','a1'));
 t1 = str2num(read_parameters('parameters.txt','t1'));
 decoder_delay_tolerance = str2num(read_parameters('parameters.txt','decoder_delay_tolerance'));
 
-%PARSING
+%PARSING Metadata
 metadata_string = read_metadata(metadata_filename);
 
 binary_stream = str_to_bin(metadata_string, header_char, header_len, header_times, footer_char);
 
 %CODER
 tic;
-coder(audio_input_filename, binary_stream, a0, t0, a1, t1, segmentSize, Channel);
+coder(char(audio_input_filename), binary_stream, a0, t0, a1, t1, segmentSize, Channel);
 fprintf('Coding time:\n');
 toc;
-
-%DECODER
-tic;
-dataDecoded = decoder(a0, t0, a1, t1, segmentSize, Channel, decoder_delay_tolerance);
-fprintf('Decoding time:\n');
-toc;
-
-%POSTPARSING
-result = bin_to_str(dataDecoded, header_char, header_len, footer_char);
-
-parse_metadata(result);

@@ -1,0 +1,14 @@
+metadata_filename = metadata.txt
+audio_input_filename = ./wavFiles/sample2.wav
+header_char = #
+header_len = 4
+header_times = 3
+footer_char = @
+
+segmentSize = 6000
+Channel = 1
+a0 = 0.831
+t0 = 792
+a1 = 0.628
+t1 = 837
+decoder_delay_tolerance = 3
