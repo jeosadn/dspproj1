@@ -1,4 +1,4 @@
-function [dataDecoded] = decoder(a0,t0,a1,t1,segmentSize,Channel,decoder_delay_tolerance)
+function [dataDecoded] = decoder(a0, t0, a1, t1, segmentSize, Channel, decoder_delay_tolerance)
     %--------------------------------------------------------------------------
     % Read audio File
     %--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ function [dataDecoded] = decoder(a0,t0,a1,t1,segmentSize,Channel,decoder_delay_t
             if (index < signalSize(1))
                 v(i,j) = sampleData(index,Channel);
             else
-                v(i,j) = 0;   
+                v(i,j) = 0;
             end
         end
     end
@@ -31,7 +31,7 @@ function [dataDecoded] = decoder(a0,t0,a1,t1,segmentSize,Channel,decoder_delay_t
     %--------------------------------------------------------------------------
     % Cepstrum autocorrelation
     %--------------------------------------------------------------------------
-    auto_corr = zeros(2*segmentSize-1,1);
+    auto_corr = zeros(2*segmentSize-1,1); %#ok<PREALL>
     cepstrum = rand(numberSegments,segmentSize);
     for i = 1:numberSegments
         auto_corr = xcorr(v(i,:));
@@ -40,10 +40,10 @@ function [dataDecoded] = decoder(a0,t0,a1,t1,segmentSize,Channel,decoder_delay_t
     end
 
     %%%% PLOT %%%%%
-    figure(2);
-    plot(cepstrum(56,:));
-    axis([0 segmentSize 0 6]);
-    hold on;
+    %figure(2);
+    %plot(cepstrum(56,:));
+    %axis([0 segmentSize 0 6]);
+    %hold on;
     %%%%%%%%%%%%%%%%%
 
     %--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ function [dataDecoded] = decoder(a0,t0,a1,t1,segmentSize,Channel,decoder_delay_t
             dataDecoded(i) = 1;
         else
             dataDecoded(i) = 0;
-        end    
+        end
     end
 
     %bin_char = zeros(8,1);

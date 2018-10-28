@@ -24,10 +24,16 @@ metaData = round(rand(segmentTotal,1)); %This should be real metaData.
 % END FIXME
 
 % Calling coder
+tic;
 coder('./sample2.wav',metaData,a0,t0,a1,t1,segmentSize,Channel);
+fprintf('Coding time:\n');
+toc;
 
 % Calling decoder
+tic;
 [dataDecoded] = decoder(a0,t0,a1,t1,segmentSize,Channel,decoder_delay_tolerance);
+fprintf('Decooding time:\n');
+toc;
 
 % Checking data correctness
 number_wrong_bits = 0;

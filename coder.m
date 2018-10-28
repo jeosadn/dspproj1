@@ -1,4 +1,4 @@
-function coder(audio_original_file,metaData,a0,t0,a1,t1,segmentSize,Channel)
+function coder(audio_original_file, metaData, a0, t0, a1, t1, segmentSize, Channel)
     %--------------------------------------------------------------------------
     % Read audio File
     %--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ function coder(audio_original_file,metaData,a0,t0,a1,t1,segmentSize,Channel)
             if (index < signalSize(1))
                 v(i,j) = sampleData(index,Channel);
             else
-                v(i,j) = 0;   
+                v(i,j) = 0;
             end
         end
     end
@@ -81,6 +81,12 @@ function coder(audio_original_file,metaData,a0,t0,a1,t1,segmentSize,Channel)
 
     temp_y = zeros(segmentTotal,segmentSize+tMax-1);
 
+    if (length(metaData) > segmentTotal)
+        fprintf('Error, metaData longer than number of segments\n');
+    else
+        metaData(length(metaData)+1:segmentTotal+tMax-1) = 0;
+    end
+
     for i = 1:segmentTotal
         if(metaData(i))
             temp1 = conv(v(i,:),h1);
@@ -115,13 +121,13 @@ function coder(audio_original_file,metaData,a0,t0,a1,t1,segmentSize,Channel)
         end
     end
 
-    prueba = abs(ifft(log(fft(y(36,:))).^2));
+    %prueba = abs(ifft(log(fft(y(36,:))).^2));
     %prueba2 = abs(ifft(log(fft(temp_y(t,:))).^2));
-    figure(1);
-    plot(prueba);
+    %figure(1);
+    %plot(prueba);
     %hold on;
     %plot(prueba2)
-    axis([0 segmentSize 0 6]);
+    %axis([0 segmentSize 0 6]);
 
     %--------------------------------------------------------------------------
     % Unifying segments
@@ -129,7 +135,7 @@ function coder(audio_original_file,metaData,a0,t0,a1,t1,segmentSize,Channel)
     index = 0;
     for i = 1:segmentTotal
         for j = 1:segmentSize
-            index = index+1;        
+            index = index+1;
             if (index < signalSize(1))
                 sampleData(index,Channel) = y(i,j);
             end
