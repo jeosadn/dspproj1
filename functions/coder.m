@@ -1,11 +1,10 @@
-function coder(audio_original_file, metaData, a0, t0, a1, t1, segmentSize, Channel)
-  
+function coder(audio_input_filename, audio_output_filename, metaData, a0, t0, a1, t1, segmentSize, Channel)
     %--------------------------------------------------------------------------
     % Read audio File
     %--------------------------------------------------------------------------
     %Input characteristics:
     % 16 bit per sample, at 44100 Hz, in stereo
-    [sampleData, sampleFrequency] = audioread(audio_original_file);%'./sample2.wav');
+    [sampleData, sampleFrequency] = audioread(audio_input_filename);
 
     %--------------------------------------------------------------------------
     % Segment signal
@@ -29,25 +28,17 @@ function coder(audio_original_file, metaData, a0, t0, a1, t1, segmentSize, Chann
     %--------------------------------------------------------------------------
     % Multiplexing
     %--------------------------------------------------------------------------
-    %H0(z) = 1 + a0*z^(-t0)
     H0 = zeros(t0,1);
     H0(1) = 1;
     H0(t0) = a0;
     h0 = impz(H0,1);
     h0 = h0';
 
-    %H1(z) = 1 + a1*z^(-t1)
     H1 = zeros(t1,1);
     H1(1) = 1;
     H1(t1) = a1;
     h1 = impz(H1,1);
     h1 = h1';
-
-    %Plot impulse response of h0 and h1
-    %figure(1);
-    %stem(h1);
-    %hold on
-    %stem(h0);
 
     temp0 = zeros(1,segmentSize+t0-1);
     temp1 = zeros(1,segmentSize+t1-1);
@@ -102,12 +93,6 @@ function coder(audio_original_file, metaData, a0, t0, a1, t1, segmentSize, Chann
         end
     end
 
-    %Plot a coded and combanided segment
-    %tmp = abs(ifft(log(fft(y(36,:))).^2));
-    %figure(2);
-    %plot(prueba);
-    %axis([0 segmentSize 0 6]);
-
     %--------------------------------------------------------------------------
     % Unifying segments
     %--------------------------------------------------------------------------
@@ -132,5 +117,5 @@ function coder(audio_original_file, metaData, a0, t0, a1, t1, segmentSize, Chann
     %--------------------------------------------------------------------------
     %Output characteristics:
     % 16 bit per sample, at 44100 Hz, in stereo
-    audiowrite('./wavFiles/coded.wav', sampleData, sampleFrequency);
+    audiowrite(audio_output_filename, sampleData, sampleFrequency);
 end

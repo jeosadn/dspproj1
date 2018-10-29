@@ -1,5 +1,6 @@
 metadata_filename = metadata.txt
 audio_input_filename = ./wavFiles/sample2.wav
+audio_output_filename = ./wavFiles/encoded.wav
 header_char = #
 header_len = 4
 header_times = 3

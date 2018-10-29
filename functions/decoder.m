@@ -1,10 +1,10 @@
-function [dataDecoded] = decoder(a0, t0, a1, t1, segmentSize, Channel, decoder_delay_tolerance)
+function [dataDecoded] = decoder(audio_output_filename, a0, t0, a1, t1, segmentSize, Channel, decoder_delay_tolerance)
     %--------------------------------------------------------------------------
     % Read audio File
     %--------------------------------------------------------------------------
     %Input characteristics:
     % 16 bit per sample, at 44100 Hz, in stereo
-    [sampleData, sampleFrequency] = audioread('./wavFiles/coded.wav');
+    [sampleData, sampleFrequency] = audioread(audio_output_filename);
 
     %--------------------------------------------------------------------------
     % Segment signal
@@ -35,12 +35,6 @@ function [dataDecoded] = decoder(a0, t0, a1, t1, segmentSize, Channel, decoder_d
         prueba = abs(ifft(log((fft(auto_corr)).^2)));
         cepstrum(i,:) = prueba(1:segmentSize);
     end
-
-    %Plot a decoded segment
-    %figure(2);
-    %plot(cepstrum(56,:));
-    %axis([0 segmentSize 0 6]);
-    %hold on;
 
     %--------------------------------------------------------------------------
     % Sorter
